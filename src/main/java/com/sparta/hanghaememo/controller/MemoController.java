@@ -42,14 +42,12 @@ public class MemoController {
     }
 
     @PutMapping("/api/memos/{id}/{password}")
-    public MemoResponseDto updateMemo(@PathVariable Long id, @PathVariable String password, @RequestBody MemoRequestDto requestDto) {
-        HttpServletRequest httpServletRequest;
+    public MemoResponseDto updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto,HttpServletRequest httpServletRequest) {
         return memoService.update(id, requestDto, httpServletRequest);
     }
 
     @DeleteMapping("/api/memos/{id}/{password}")
-    public String deleteMemo(@PathVariable Long id,@PathVariable String password) {
-        HttpServletRequest httpServletRequest;
+    public String deleteMemo(@PathVariable Long id, HttpServletRequest httpServletRequest) {
         return memoService.deleteMemo(id, httpServletRequest);
     }
 
