@@ -38,9 +38,9 @@ public class MemoService {
         }else{
             throw new IllegalArgumentException("토큰이 없습니다");
         }
-        User user = userRepository.findByUsername(tempUserName).orElseThrow();
-
-
+        User user = userRepository.findByUsername(tempUserName).orElseThrow(
+                () -> new IllegalArgumentException("일치하는 회원이 없습니다")
+        );
         Memo memo = new Memo(requestDto);
         memoRepository.save(memo);
         return memo;
@@ -64,7 +64,7 @@ public class MemoService {
         String token = jwtUtil.resolveToken(httpServletRequest);
         String tempUserName = "";
         Memo memo = memoRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+                () -> new IllegalArgumentException("해당 게시글은 존재하지 않습니다.")
         );
 
         if(token != null){
@@ -77,7 +77,9 @@ public class MemoService {
         }else{
             throw new IllegalArgumentException("토큰이 없습니다");
         }
-        User user = userRepository.findByUsername(tempUserName).orElseThrow();
+        User user = userRepository.findByUsername(tempUserName).orElseThrow(
+                () -> new IllegalArgumentException("일치하는 회원이 없습니다")
+        );
 
         memo.update(requestDto);
         return new MemoResponseDto(memo);
@@ -87,9 +89,6 @@ public class MemoService {
     public String deleteMemo(Long id, HttpServletRequest httpServletRequest) {
         String token = jwtUtil.resolveToken(httpServletRequest);
         String tempUserName = "";
-        Memo memo = memoRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-        );
         if(token != null){
             if(jwtUtil.validateToken(token)){
                 Claims claims = jwtUtil.getUserInfoFromToken(token);
@@ -100,7 +99,9 @@ public class MemoService {
         }else{
             throw new IllegalArgumentException("토큰이 없습니다");
         }
-        User user = userRepository.findByUsername(tempUserName).orElseThrow();
+        User user = userRepository.findByUsername(tempUserName).orElseThrow(
+                () -> new IllegalArgumentException("일치하는 회원이 없습니다")
+        );
 
         memoRepository.deleteById(id);
         return "아이디 "+id +"의 내용을 모두 삭제했습니다";
