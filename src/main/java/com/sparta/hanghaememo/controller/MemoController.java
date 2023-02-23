@@ -24,29 +24,30 @@ public class MemoController {
     }
 
 //    신규등록하기
-    @PostMapping("/api/memos")
+    @PostMapping("/memos")
     public Memo createMemo(@RequestBody MemoRequestDto requestDto, HttpServletRequest httpServletRequest) {
         return memoService.createMemo(requestDto, httpServletRequest);
     }
 
 //    전체 메모 가져오기
-    @GetMapping("/api/memos")
+    @GetMapping("/memos")
     public List<MemoResponseDto> getMemos() {
         return memoService.getMemos();
     }
 
 //    특정 메모 가져오기
-    @GetMapping("/api/memos/{id}")
+    @GetMapping("/memos/{id}")
     public MemoResponseDto getMemos(@PathVariable Long id) {
         return memoService.getMemos(id);
     }
 
-    @PutMapping("/api/memos/{id}/{password}")
+//    메모 수정하기
+    @PutMapping("/memos/{id}/{password}")
     public MemoResponseDto updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto,HttpServletRequest httpServletRequest) {
         return memoService.update(id, requestDto, httpServletRequest);
     }
-
-    @DeleteMapping("/api/memos/{id}/{password}")
+//    메모 삭제하기
+    @DeleteMapping("/memos/{id}/{password}")
     public String deleteMemo(@PathVariable Long id, HttpServletRequest httpServletRequest) {
         return memoService.deleteMemo(id, httpServletRequest);
     }
